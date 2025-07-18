@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using TemplateEngine.Docx.Errors;
 using TemplateEngine.Docx.Processors;
 
@@ -168,6 +169,40 @@ namespace TemplateEngine.Docx
         {
 			if (_wordDocument != null)
 				_wordDocument.Dispose();
+        }
+
+        public static void RemoveBlanks(string filename)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filename, true))
+            {
+                foreach (Table table in wordDoc.MainDocumentPart.Document.Body.Descendants<Table>())
+                {
+                    bool firstRow = true;
+                    var rowToDelete = new List<TableRow>();
+                    foreach (TableRow row in table.Descendants<TableRow>())
+                    {
+                        bool jaiUneCellule = false;
+                        foreach (TableCell cell in row.Descendants<TableCell>())
+                        {
+                            var texts = cell.Descendants<Text>().ToList();
+                            if (texts.Count > 0 && texts.Any(t => t != null && !String.IsNullOrWhiteSpace(t.Text)))
+                            {
+                                jaiUneCellule = true;
+                                break;
+                            }
+                        }
+                        if (!jaiUneCellule && !firstRow)
+                        {
+                            rowToDelete.Add(row);
+                        }
+                        firstRow = false;
+                    }
+                    foreach (var r in rowToDelete)
+                    {
+                        r.Remove();
+                    }
+                }
+            }
         }
     }
 }

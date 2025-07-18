@@ -117,13 +117,13 @@ namespace TemplateEngine.Docx
 			foreach (var header in HeaderParts)
 			{
 				header.Save();
-			}
+            }
 
-			_wordDocument.Close();
-		}
+            _wordDocument.Dispose();
+        }
 
-		#region IDisposable
-		public void Dispose()
+        #region IDisposable
+        public void Dispose()
 		{
 			if (_wordDocument != null)
 				_wordDocument.Dispose();
