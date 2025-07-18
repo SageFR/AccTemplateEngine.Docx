@@ -86,4 +86,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nuget Package
-        path: ${{ env.nuget_path }}/${{ env.Configuration }}/TemplateEngine.Docx.1.2.0.nupkg
+        path: ${{ env.nuget_path }}/${{ matrix.configuration }}/TemplateEngine.Docx.1.2.0.nupkg
