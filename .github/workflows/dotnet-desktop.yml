@@ -58,6 +58,8 @@ jobs:
     env:
       Solution_Name: sources/TemplateEngine.Docx.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
       nuget_path: sources/TemplateEngine.Docx/bin
+      TOKEN_SECRET: ${{ secrets.TOKENSECRET }}
+      USER_SECRET: ${{ secrets.USER_SECRET }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -85,6 +87,13 @@ jobs:
       run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+
+
+    # Add source 
+    - name: Add source
+      run: dotnet nuget add source --username "$USER_SECRET" --password "$TOKEN_SECRET" --store-password-in-clear-text --name githubmrocaml "https://nuget.pkg.github.com/mrocaml/index.json"
+      env:
+        Configuration: ${{ matrix.configuration }}    
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
