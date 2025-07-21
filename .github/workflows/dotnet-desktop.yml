@@ -95,9 +95,9 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}    
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: nuget Package
-        path: ${{ env.nuget_path }}/${{ matrix.configuration }}/TemplateEngine.Docx.1.2.0.nupkg
+
+    # Upload
+    - name: Upload
+      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.0.nupkg" --api-key "$TOKEN_SECRET" --source "githubmrocaml"
+      env:
+        Configuration: ${{ matrix.configuration }}   
