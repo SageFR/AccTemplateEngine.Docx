@@ -91,13 +91,13 @@ jobs:
 
     # Add source 
     - name: Add source
-      run: dotnet nuget add source --username ${USER_SECRET} --password ${TOKEN_SECRET} --store-password-in-clear-text --name githubmrocaml "https://nuget.pkg.github.com/mrocaml/index.json"
+      run: dotnet nuget add source --username "$env:USER_SECRET" --password "$env:TOKEN_SECRET" --store-password-in-clear-text --name githubmrocaml "https://nuget.pkg.github.com/mrocaml/index.json"
       env:
         Configuration: ${{ matrix.configuration }}    
 
 
     # Upload
     - name: Upload
-      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.0.nupkg" --api-key ${TOKEN_SECRET} --source "githubmrocaml"
+      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.0.nupkg" --api-key "$env:TOKEN_SECRET" --source "githubmrocaml"
       env:
         Configuration: ${{ matrix.configuration }}   
