@@ -7,7 +7,7 @@
 	<Copyright></Copyright>
 	<Company>Morgan Software</Company>
 	<Description>Smart template engine for generating Word docx documents on the server-side with a human-created Word templates, based on content controls Word feature</Description>
-	<PackageProjectUrl>http://unit6.ru/template-engine</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/mrocaml/TemplateEngine.Docx</PackageProjectUrl>
 	<PackageLicenseUrl>http://opensource.org/licenses/ms-pl</PackageLicenseUrl>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>	
   </PropertyGroup>
