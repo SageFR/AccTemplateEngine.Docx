@@ -50,7 +50,7 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Release]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -58,6 +58,8 @@ jobs:
     env:
       Solution_Name: sources/TemplateEngine.Docx.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
       nuget_path: sources/TemplateEngine.Docx/bin
+      TOKEN_SECRET: ${{ secrets.TOKENSECRET }}
+      USER_SECRET: ${{ secrets.USER_SECRET }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -86,9 +88,16 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: nuget Package
-        path: ${{ env.nuget_path }}/${{ matrix.configuration }}/TemplateEngine.Docx.1.2.0.nupkg
+
+    # Add source 
+    - name: Add source
+      run: dotnet nuget add source --username "$env:USER_SECRET" --password "$env:TOKEN_SECRET" --store-password-in-clear-text --name githubmrocaml "https://nuget.pkg.github.com/mrocaml/index.json"
+      env:
+        Configuration: ${{ matrix.configuration }}    
+
+
+    # Upload
+    - name: Upload
+      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.0.nupkg" --api-key "$env:TOKEN_SECRET" --source "githubmrocaml"
+      env:
+        Configuration: ${{ matrix.configuration }}   
