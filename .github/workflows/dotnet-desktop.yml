@@ -98,6 +98,6 @@ jobs:
 
     # Upload
     - name: Upload
-      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.0.nupkg" --api-key "$env:TOKEN_SECRET" --source "githubmrocaml"
+      run: dotnet nuget push "sources/TemplateEngine.Docx/bin/Release/TemplateEngine.Docx.1.2.1.nupkg" --api-key "$env:TOKEN_SECRET" --source "githubmrocaml"
       env:
         Configuration: ${{ matrix.configuration }}   
