@@ -66,9 +66,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-        source-url: https://nuget.pkg.github.com/SageFR/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.PAT_PUSH_NUGETFR}}
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
